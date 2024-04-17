@@ -1,4 +1,4 @@
-### Editor3D: A Windows.Forms Render Control with interactive 3D Editor in C#
+##### Editor3D: A Windows.Forms Render Control with interactive 3D Editor in C#
 
 ## https://www.codeproject.com/Articles/5293980/Editor3D-A-Windows-Forms-Render-Control-with-inter
 
@@ -111,6 +111,7 @@ Download the ZIP file and then run the already compiled EXE file and play around
 
 Here you see data from a table with 22x17 values displayed as 3D surface with coordinate system.
 
+```csharp
 int\[,\] s32\_Values = new int\[,\]
 {
     { 9059,   9634, 10617, 11141, ....., 15368, 15368, 15368, 15368, 15368 }, // row 1
@@ -159,6 +160,7 @@ editor3D.Selection.HighlightColor = Color.FromArgb(90, 90, 90); // gray
 editor3D.Selection.MultiSelect    = true;
 editor3D.Selection.Enabled        = true;
 editor3D.Invalidate();
+```
 
 When you use discrete values for X,Y and Z which are not related like in this example make sure that X,Y and Z values are **normalized** separately by using the parameter `eNormalize.Separate` because the axes have different ranges.
 
@@ -180,6 +182,7 @@ Use Demo Surface Fill to test the checkboxes "Mirror X" and "Mirror Y".
 
 Or you can write a C# callback function which calculates the Z values from the given X and Y values.
 
+```csharp
 cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
 cSurfaceData i\_Data   = new cSurfaceData(ePolygonMode.Fill, 49, 33, Pens.Black, i\_Scheme);
 
@@ -196,6 +199,7 @@ editor3D.Clear();
 editor3D.Normalize = eNormalize.MaintainXYZ;
 editor3D.AddRenderData(i\_Data);
 editor3D.Invalidate();
+```
 
 A modulated sinus function is displayed on the X axis from -120 to +120 and on the Y axis from -80 to +80.  
 The 49 columns and 33 rows of points result in 48 columns and 32 rows of polygons (totally 1536).
@@ -208,6 +212,7 @@ When you use functions make sure that the relation between X,Y and Z values is n
 
 Or you can let the user enter a string formula which will be compiled at run time:
 
+```csharp
 cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
 cSurfaceData i\_Data   = new cSurfaceData(ePolygonMode.Fill, 41, 41, Pens.Black, i\_Scheme);
 
@@ -219,11 +224,13 @@ editor3D.Clear();
 editor3D.Normalize = eNormalize.MaintainXYZ;
 editor3D.AddRenderData(i\_Data);
 editor3D.Invalidate();
+```
 
 ## Demo: Scatter Plot
 
 ![System.Windows.Forms 3D Editor Control in C#](https://www.codeproject.com/KB/Articles/5293980/Editor3D_ScatterPlot.png)
 
+```csharp
 cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
 cScatterData i\_Data   = new cScatterData(i\_Scheme);
 
@@ -242,6 +249,7 @@ editor3D.Clear();
 editor3D.Normalize = eNormalize.Separate;
 editor3D.AddRenderData(i\_Data);
 editor3D.Invalidate();
+```
 
 ## Demo: Scatter Shapes
 
@@ -254,6 +262,7 @@ The value is displayed in the tooltip.
 
 4 shapes are selected (blue) and can be moved with the mouse in the 3D space.
 
+```csharp
 double\[,\] d\_Values = new double\[,\]
 {
     // Value  X        Y      Z
@@ -289,6 +298,7 @@ editor3D.Clear();
 editor3D.Normalize = eNormalize.Separate;
 editor3D.AddRenderData(i\_Data);
 editor3D.Invalidate();
+'''
 
 ## Demo: Nested Graphs
 
@@ -298,6 +308,7 @@ This demo shows how to display 2 graphs at once.
 It also shows how to add messages as a legend to the user (bottom left).  
 This demo demonstrates single point selection. The user can only select one point at a time.
 
+```csharp
 const int POINTS = 8;
 cSurfaceData i\_Data1 = new cSurfaceData(ePolygonMode.Lines, POINTS, POINTS, new Pen(Color.Orange, 3), null);
 cSurfaceData i\_Data2 = new cSurfaceData(ePolygonMode.Lines, POINTS, POINTS, new Pen(Color.Green,  2), null);
@@ -330,6 +341,7 @@ editor3D.AddMessageData(i\_Mesg1, i\_Mesg2);
 editor3D.Selection.MultiSelect = false;
 editor3D.Selection.Enabled     = true;
 editor3D.Invalidate();
+```
 
 ## Demo: Pyramid
 
@@ -339,6 +351,7 @@ This demo shows a simple 3D object which consists of lines.
 Normally lines are drawn in one solid color.  
 But this demo renders the vertical lines in 50 parts with colors from the rainbow scheme.
 
+```csharp
 cLineData i\_Data = new cLineData(new cColorScheme(me\_ColorScheme));
 
 cPoint3D i\_Center  = new cPoint3D(45, 45, 40, "Center");
@@ -364,6 +377,7 @@ editor3D.Normalize = eNormalize.Separate;
 editor3D.AxisZ.IncludeZero = false;
 editor3D.AddRenderData(i\_Data);
 editor3D.Invalidate();
+```
 
 ## Including Z Value Zero
 
@@ -382,8 +396,8 @@ If you have been working with other 3D libraries (WPF, Direct3D) you know that a
 But my library allows to pass polygons with any amount of corners (minimum 3).  
 This eliptic sphere contains a round polygon with 50 corners for the top and bottom.
 
-The code of this demo is a bit longer.
-Have a look into the source code.
+# The code of this demo is a bit longer.
+# Have a look into the source code.
 
 ## Modifying 3D Objects
 
@@ -397,6 +411,7 @@ All this is handled in the selection callback where you have 100% control over a
 
 ## The Selection Callback
 
+```csharp
 void DemoPyramid()
 {
     .....
@@ -436,6 +451,7 @@ eInvalidate OnSelectEvent(eAltEvent e\_Event, Keys e\_Modifiers,
 
     return e\_Invalidate;
 }
+```
 
 The callback `OnSelectEvent()` receives several parameters.  
 Read the comment for function `Editor3D.SelectionCallback()` where they are explained.  
@@ -457,6 +473,7 @@ This data may be a `List<cObject3D>` or any class or struct of your project.
 When the callback is called because the user clicks or drags a 3D object you can obtain the data from the `Tag`.  
 The following code shows how to select an entire 3D figure consisting of lines, shapes and polygons when the user clicks one of them.
 
+```csharp
 // Add all parts of your 3D figure to a list
 List<cObject3D> i\_Parts = new List<cObject3D>();
 i\_Parts.Add(i\_MyLine1);
@@ -495,6 +512,7 @@ private eInvalidate OnSelectEvent(eAltEvent e\_Event, Keys e\_Modifiers,
 
     return eInvalidate.NoChange;
 }
+```
 
 ## Deleting 3D Objects
 
@@ -502,6 +520,7 @@ private eInvalidate OnSelectEvent(eAltEvent e\_Event, Keys e\_Modifiers,
 
 In demo 'Sphere' you can select polygons and delete them by hitting the DEL key.
 
+```csharp
 editor3D.KeyDown += new KeyEventHandler(OnEditorKeyDown);
 
 void OnEditorKeyDown(object sender, KeyEventArgs e)
@@ -515,6 +534,7 @@ void OnEditorKeyDown(object sender, KeyEventArgs e)
     }
     editor3D.Invalidate();
 }
+```
 
 ## Demo Animation
 
@@ -526,6 +546,7 @@ The pyramid rotates around it's own axis and drifts up and down.
 
 The timer calls this function every 100 ms:
 
+```csharp
 void ProcessAnimation()
 {
     ms32\_AnimationAngle ++;
@@ -576,6 +597,7 @@ void ProcessAnimation()
     mi\_Pyramid\[4\].Y = -100.0 + d\_Sinus;
     mi\_Pyramid\[4\].Z =   40.0 + d\_DeltaZ;
 }
+```
 
 ## Tooltip
 
@@ -588,7 +610,9 @@ This means that in one rectangle on the right screenshot you may see 10 tooltips
 Fixing this would require to detect if a corner is covered by a polygon which would extremely decrease the perfomance.  
 If you find this confusing, I recomend to turn off the tooltip:
 
+```csharp
 editor3D.TooltipMode = eTooltip.Off;
+```
 
 ## Demo: Valentine
 
@@ -599,6 +623,14 @@ Well, this demo has just been written on 14th february 2021.
 
 Have fun with my library. Read the plenty of comments in the code!
 
-### Elmü
+# Elmü
+
+## License
+This article, along with any associated source code and files, is licensed under The Code Project Open License (CPOL)
+
+# Written By
+### Elmue
+Software Developer (Senior) ElmüSoft
+Chile
 
 Software Engineer since 40 years.
