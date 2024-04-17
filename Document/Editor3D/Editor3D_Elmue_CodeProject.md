@@ -1,4 +1,4 @@
-##### Editor3D: A Windows.Forms Render Control with interactive 3D Editor in C#
+# Editor3D: A Windows.Forms Render Control with interactive 3D Editor in C#
 
 ## https://www.codeproject.com/Articles/5293980/Editor3D-A-Windows-Forms-Render-Control-with-inter
 
@@ -112,7 +112,7 @@ Download the ZIP file and then run the already compiled EXE file and play around
 Here you see data from a table with 22x17 values displayed as 3D surface with coordinate system.
 
 ```csharp
-int\[,\] s32\_Values = new int\[,\]
+int[,] s32_Values = new int[,]
 {
     { 9059,   9634, 10617, 11141, ....., 15368, 15368, 15368, 15368, 15368 }, // row 1
     { 9684,  10387, 11141, 11796, ....., 15794, 15794, 15794, 15794, 15794 }, // row 2
@@ -121,29 +121,29 @@ int\[,\] s32\_Values = new int\[,\]
     { 34767, 34210, 33718, 33096, ....., 27984, 26492, 25167, 25167, 25167 }  // row 22
 };
 
-int s32\_Cols = s32\_Values.GetLength(1);
-int s32\_Rows = s32\_Values.GetLength(0);
+int s32_Cols = s32_Values.GetLength(1);
+int s32_Rows = s32_Values.GetLength(0);
 
-cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
-cSurfaceData i\_Data   = new cSurfaceData(e\_Mode, s32\_Cols, s32\_Rows, Pens.Black, i\_Scheme);
+cColorScheme i_Scheme = new cColorScheme(me_ColorScheme);
+cSurfaceData i_Data   = new cSurfaceData(e_Mode, s32_Cols, s32_Rows, Pens.Black, i_Scheme);
 
-for (int C=0; C<i\_Data.Cols; C++)
+for (int C=0; C<i_Data.Cols; C++)
 {
-    for (int R=0; R<i\_Data.Rows; R++)
+    for (int R=0; R<i_Data.Rows; R++)
     {
-        int s32\_RawValue = s32\_Values\[R,C\];
+        int s32_RawValue = s32_Values[R,C];
 
-        double d\_X = C \* 640.0; // X must be related to colum
-        double d\_Y = R \*   5.0; // Y must be related to row
-        double d\_Z = s32\_RawValue / 327.68;
+        double d_X = C * 640.0; // X must be related to colum
+        double d_Y = R *   5.0; // Y must be related to row
+        double d_Z = s32_RawValue / 327.68;
 
-        String s\_Tooltip = String.Format("Speed = {0} rpm\\nMAP = {1} kPa\\n"
-                                       + "Volume Eff. = {2} %\\nColumn = {3}\\nRow = {4}", 
-                                         d\_X, d\_Y, Editor3D.FormatDouble(d\_Z), C, R);
+        String s_Tooltip = String.Format("Speed = {0} rpmnMAP = {1} kPan"
+                                       + "Volume Eff. = {2} %nColumn = {3}nRow = {4}", 
+                                         d_X, d_Y, Editor3D.FormatDouble(d_Z), C, R);
 
-        cPoint3D i\_Point = new cPoint3D(d\_X, d\_Y, d\_Z, s\_Tooltip, s32\_RawValue);
+        cPoint3D i_Point = new cPoint3D(d_X, d_Y, d_Z, s_Tooltip, s32_RawValue);
 
-        i\_Data.SetPointAt(C, R, i\_Point);
+        i_Data.SetPointAt(C, R, i_Point);
     }
 }
 
@@ -153,7 +153,7 @@ editor3D.AxisY.Mirror = true;
 editor3D.AxisX.LegendText = "Engine Speed (rpm)";
 editor3D.AxisY.LegendText = "MAP (kPa)";
 editor3D.AxisZ.LegendText = "Volume Efficiency (%)";
-editor3D.AddRenderData(i\_Data);
+editor3D.AddRenderData(i_Data);
 
 editor3D.Selection.Callback       = OnSelectEvent;
 editor3D.Selection.HighlightColor = Color.FromArgb(90, 90, 90); // gray
@@ -183,21 +183,21 @@ Use Demo Surface Fill to test the checkboxes "Mirror X" and "Mirror Y".
 Or you can write a C# callback function which calculates the Z values from the given X and Y values.
 
 ```csharp
-cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
-cSurfaceData i\_Data   = new cSurfaceData(ePolygonMode.Fill, 49, 33, Pens.Black, i\_Scheme);
+cColorScheme i_Scheme = new cColorScheme(me_ColorScheme);
+cSurfaceData i_Data   = new cSurfaceData(ePolygonMode.Fill, 49, 33, Pens.Black, i_Scheme);
 
-delRendererFunction f\_Callback = delegate(double X, double Y)
+delRendererFunction f_Callback = delegate(double X, double Y)
 {
-    double r = 0.15 \* Math.Sqrt(X \* X + Y \* Y);
+    double r = 0.15 * Math.Sqrt(X * X + Y * Y);
     if (r < 1e-10) return 120;
-    else           return 120 \* Math.Sin(r) / r;
+    else           return 120 * Math.Sin(r) / r;
 };
 
-i\_Data.ExecuteFunction(f\_Callback, new PointF(-120, -80), new PointF(120, 80));
+i_Data.ExecuteFunction(f_Callback, new PointF(-120, -80), new PointF(120, 80));
 
 editor3D.Clear();
 editor3D.Normalize = eNormalize.MaintainXYZ;
-editor3D.AddRenderData(i\_Data);
+editor3D.AddRenderData(i_Data);
 editor3D.Invalidate();
 ```
 
@@ -213,16 +213,16 @@ When you use functions make sure that the relation between X,Y and Z values is n
 Or you can let the user enter a string formula which will be compiled at run time:
 
 ```csharp
-cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
-cSurfaceData i\_Data   = new cSurfaceData(ePolygonMode.Fill, 41, 41, Pens.Black, i\_Scheme);
+cColorScheme i_Scheme = new cColorScheme(me_ColorScheme);
+cSurfaceData i_Data   = new cSurfaceData(ePolygonMode.Fill, 41, 41, Pens.Black, i_Scheme);
 
-String s\_Formula = "7 \* sin(x) \* cos(y) / (sqrt(sqrt(x \* x + y \* y)) + 0.2)";
-delRendererFunction f\_Function = FunctionCompiler.Compile(s\_Formula);
-i\_Data.ExecuteFunction(f\_Function, new PointF(-7, -7), new PointF(7, 7));
+String s_Formula = "7 * sin(x) * cos(y) / (sqrt(sqrt(x * x + y * y)) + 0.2)";
+delRendererFunction f_Function = FunctionCompiler.Compile(s_Formula);
+i_Data.ExecuteFunction(f_Function, new PointF(-7, -7), new PointF(7, 7));
 
 editor3D.Clear();
 editor3D.Normalize = eNormalize.MaintainXYZ;
-editor3D.AddRenderData(i\_Data);
+editor3D.AddRenderData(i_Data);
 editor3D.Invalidate();
 ```
 
@@ -231,23 +231,23 @@ editor3D.Invalidate();
 ![System.Windows.Forms 3D Editor Control in C#](https://www.codeproject.com/KB/Articles/5293980/Editor3D_ScatterPlot.png)
 
 ```csharp
-cColorScheme i\_Scheme = new cColorScheme(me\_ColorScheme);
-cScatterData i\_Data   = new cScatterData(i\_Scheme);
+cColorScheme i_Scheme = new cColorScheme(me_ColorScheme);
+cScatterData i_Data   = new cScatterData(i_Scheme);
 
 for (double P = -22.0; P < 22.0; P += 0.1)
 {
-    double d\_X = Math.Sin(P) \* P;
-    double d\_Y = Math.Cos(P) \* P;
-    double d\_Z = P;
-    if (d\_Z > 0.0) d\_Z /= 3.0;
+    double d_X = Math.Sin(P) * P;
+    double d_Y = Math.Cos(P) * P;
+    double d_Z = P;
+    if (d_Z > 0.0) d_Z /= 3.0;
 
-    cPoint3D i\_Point = new cPoint3D(d\_X, d\_Y, d\_Z, "Scatter Point");
-    i\_Data.AddShape(i\_Point, eScatterShape.Circle, 3, null);
+    cPoint3D i_Point = new cPoint3D(d_X, d_Y, d_Z, "Scatter Point");
+    i_Data.AddShape(i_Point, eScatterShape.Circle, 3, null);
 }
  
 editor3D.Clear();
 editor3D.Normalize = eNormalize.Separate;
-editor3D.AddRenderData(i\_Data);
+editor3D.AddRenderData(i_Data);
 editor3D.Invalidate();
 ```
 
@@ -263,7 +263,7 @@ The value is displayed in the tooltip.
 4 shapes are selected (blue) and can be moved with the mouse in the 3D space.
 
 ```csharp
-double\[,\] d\_Values = new double\[,\]
+double[,] d_Values = new double[,]
 {
     // Value  X        Y      Z
     {   0.39, 0.0051,  0.133, 0.66 },
@@ -274,29 +274,29 @@ double\[,\] d\_Values = new double\[,\]
 }
 
 // A ColorScheme is not needed because all points have their own Brush
-cScatterData i\_Data = new cScatterData(null);
+cScatterData i_Data = new cScatterData(null);
 
-for (int P = 0; P < d\_Values.GetLength(0); P++)
+for (int P = 0; P < d_Values.GetLength(0); P++)
 {
-    double d\_Value = d\_Values\[P, 0\];
-    int s32\_Radius = (int)Math.Abs(d\_Value) + 1;
+    double d_Value = d_Values[P, 0];
+    int s32_Radius = (int)Math.Abs(d_Value) + 1;
 
-    double X = d\_Values\[P,1\];
-    double Y = d\_Values\[P,2\];
-    double Z = d\_Values\[P,3\];
+    double X = d_Values[P,1];
+    double Y = d_Values[P,2];
+    double Z = d_Values[P,3];
 
-    eScatterShape e\_Shape = (d\_Value < 0) ? eScatterShape.Square : eScatterShape.Triangle;
-    Brush         i\_Brush = (d\_Value < 0) ? Brushes.Red          : Brushes.Lime;
+    eScatterShape e_Shape = (d_Value < 0) ? eScatterShape.Square : eScatterShape.Triangle;
+    Brush         i_Brush = (d_Value < 0) ? Brushes.Red          : Brushes.Lime;
 
-    String s\_Tooltip = "Value = " + Editor3D.FormatDouble(d\_Value);
-    cPoint3D i\_Point = new cPoint3D(X, Y, Z, s\_Tooltip, d\_Value);
+    String s_Tooltip = "Value = " + Editor3D.FormatDouble(d_Value);
+    cPoint3D i_Point = new cPoint3D(X, Y, Z, s_Tooltip, d_Value);
 
-    i\_Data.AddShape(i\_Point, e\_Shape, s32\_Radius, i\_Brush);
+    i_Data.AddShape(i_Point, e_Shape, s32_Radius, i_Brush);
 }
 
 editor3D.Clear();
 editor3D.Normalize = eNormalize.Separate;
-editor3D.AddRenderData(i\_Data);
+editor3D.AddRenderData(i_Data);
 editor3D.Invalidate();
 '''
 
@@ -310,34 +310,34 @@ This demo demonstrates single point selection. The user can only select one poin
 
 ```csharp
 const int POINTS = 8;
-cSurfaceData i\_Data1 = new cSurfaceData(ePolygonMode.Lines, POINTS, POINTS, new Pen(Color.Orange, 3), null);
-cSurfaceData i\_Data2 = new cSurfaceData(ePolygonMode.Lines, POINTS, POINTS, new Pen(Color.Green,  2), null);
+cSurfaceData i_Data1 = new cSurfaceData(ePolygonMode.Lines, POINTS, POINTS, new Pen(Color.Orange, 3), null);
+cSurfaceData i_Data2 = new cSurfaceData(ePolygonMode.Lines, POINTS, POINTS, new Pen(Color.Green,  2), null);
 
 for (int C=0; C<POINTS; C++)
 {
     for (int R=0; R<POINTS; R++)
     {
-        double d\_X = (C - POINTS / 2.3) / (POINTS / 5.5); // X must be related to colum
-        double d\_Y = (R - POINTS / 2.3) / (POINTS / 5.5); // Y must be related to row
-        double d\_Radius = Math.Sqrt(d\_X \* d\_X + d\_Y \* d\_Y);
-        double d\_Z = Math.Cos(d\_Radius) + 1.0;
+        double d_X = (C - POINTS / 2.3) / (POINTS / 5.5); // X must be related to colum
+        double d_Y = (R - POINTS / 2.3) / (POINTS / 5.5); // Y must be related to row
+        double d_Radius = Math.Sqrt(d_X * d_X + d_Y * d_Y);
+        double d_Z = Math.Cos(d_Radius) + 1.0;
 
-        String  s\_Tooltip = String.Format("Col = {0}\\nRow = {1}", C, R);
-        cPoint3D i\_Point1 = new cPoint3D(d\_X, d\_Y, d\_Z,       s\_Tooltip + "\\nWrong Data");
-        cPoint3D i\_Point2 = new cPoint3D(d\_X, d\_Y, d\_Z \* 0.6, s\_Tooltip + "\\nCorrect Data");
+        String  s_Tooltip = String.Format("Col = {0}nRow = {1}", C, R);
+        cPoint3D i_Point1 = new cPoint3D(d_X, d_Y, d_Z,       s_Tooltip + "nWrong Data");
+        cPoint3D i_Point2 = new cPoint3D(d_X, d_Y, d_Z * 0.6, s_Tooltip + "nCorrect Data");
 
-        i\_Data1.SetPointAt(C, R, i\_Point1);
-        i\_Data2.SetPointAt(C, R, i\_Point2);
+        i_Data1.SetPointAt(C, R, i_Point1);
+        i_Data2.SetPointAt(C, R, i_Point2);
     }
 }
 
-cMessgData i\_Mesg1 = new cMessgData("Graph with error data",   7,  -7, Color.Orange);
-cMessgData i\_Mesg2 = new cMessgData("Graph with correct data", 7, -24, Color.Green);
+cMessgData i_Mesg1 = new cMessgData("Graph with error data",   7,  -7, Color.Orange);
+cMessgData i_Mesg2 = new cMessgData("Graph with correct data", 7, -24, Color.Green);
 
 editor3D.Clear();
 editor3D.Normalize = eNormalize.MaintainXY;
-editor3D.AddRenderData (i\_Data1, i\_Data2);
-editor3D.AddMessageData(i\_Mesg1, i\_Mesg2);
+editor3D.AddRenderData (i_Data1, i_Data2);
+editor3D.AddMessageData(i_Mesg1, i_Mesg2);
 editor3D.Selection.MultiSelect = false;
 editor3D.Selection.Enabled     = true;
 editor3D.Invalidate();
@@ -352,30 +352,30 @@ Normally lines are drawn in one solid color.
 But this demo renders the vertical lines in 50 parts with colors from the rainbow scheme.
 
 ```csharp
-cLineData i\_Data = new cLineData(new cColorScheme(me\_ColorScheme));
+cLineData i_Data = new cLineData(new cColorScheme(me_ColorScheme));
 
-cPoint3D i\_Center  = new cPoint3D(45, 45, 40, "Center");
-cPoint3D i\_Corner1 = new cPoint3D(45, 25, 20, "Corner 1");
-cPoint3D i\_Corner2 = new cPoint3D(25, 45, 20, "Corner 2");
-cPoint3D i\_Corner3 = new cPoint3D(45, 65, 20, "Corner 3");
-cPoint3D i\_Corner4 = new cPoint3D(65, 45, 20, "Corner 4");
+cPoint3D i_Center  = new cPoint3D(45, 45, 40, "Center");
+cPoint3D i_Corner1 = new cPoint3D(45, 25, 20, "Corner 1");
+cPoint3D i_Corner2 = new cPoint3D(25, 45, 20, "Corner 2");
+cPoint3D i_Corner3 = new cPoint3D(45, 65, 20, "Corner 3");
+cPoint3D i_Corner4 = new cPoint3D(65, 45, 20, "Corner 4");
 
 // Add the 4 vertical lines which are rendered as 50 parts with different colors
-cLine3D i\_Vert1 = i\_Data.AddMultiColorLine(50, i\_Center, i\_Corner1, 4, null);
-cLine3D i\_Vert2 = i\_Data.AddMultiColorLine(50, i\_Center, i\_Corner2, 4, null);
-cLine3D i\_Vert3 = i\_Data.AddMultiColorLine(50, i\_Center, i\_Corner3, 4, null);
-cLine3D i\_Vert4 = i\_Data.AddMultiColorLine(50, i\_Center, i\_Corner4, 4, null);
+cLine3D i_Vert1 = i_Data.AddMultiColorLine(50, i_Center, i_Corner1, 4, null);
+cLine3D i_Vert2 = i_Data.AddMultiColorLine(50, i_Center, i_Corner2, 4, null);
+cLine3D i_Vert3 = i_Data.AddMultiColorLine(50, i_Center, i_Corner3, 4, null);
+cLine3D i_Vert4 = i_Data.AddMultiColorLine(50, i_Center, i_Corner4, 4, null);
 
 // Add the 4 base lines with solid color
-cLine3D i\_Hor1 = i\_Data.AddSolidLine(i\_Corner1, i\_Corner2, 8, null);
-cLine3D i\_Hor2 = i\_Data.AddSolidLine(i\_Corner2, i\_Corner3, 8, null);
-cLine3D i\_Hor3 = i\_Data.AddSolidLine(i\_Corner3, i\_Corner4, 8, null);
-cLine3D i\_Hor4 = i\_Data.AddSolidLine(i\_Corner4, i\_Corner1, 8, null);
+cLine3D i_Hor1 = i_Data.AddSolidLine(i_Corner1, i_Corner2, 8, null);
+cLine3D i_Hor2 = i_Data.AddSolidLine(i_Corner2, i_Corner3, 8, null);
+cLine3D i_Hor3 = i_Data.AddSolidLine(i_Corner3, i_Corner4, 8, null);
+cLine3D i_Hor4 = i_Data.AddSolidLine(i_Corner4, i_Corner1, 8, null);
 
 editor3D.Clear();
 editor3D.Normalize = eNormalize.Separate;
 editor3D.AxisZ.IncludeZero = false;
-editor3D.AddRenderData(i\_Data);
+editor3D.AddRenderData(i_Data);
 editor3D.Invalidate();
 ```
 
@@ -422,34 +422,34 @@ void DemoPyramid()
     .....
 }
 
-eInvalidate OnSelectEvent(eAltEvent e\_Event, Keys e\_Modifiers,
-                          int s32\_DeltaX, int s32\_DeltaY, cObject3D i\_Object)
+eInvalidate OnSelectEvent(eAltEvent e_Event, Keys e_Modifiers,
+                          int s32_DeltaX, int s32_DeltaY, cObject3D i_Object)
 {
-    eInvalidate e\_Invalidate = eInvalidate.NoChange;
+    eInvalidate e_Invalidate = eInvalidate.NoChange;
 
-    bool b\_CTRL = (e\_Modifiers & Keys.Control) > 0;
+    bool b_CTRL = (e_Modifiers & Keys.Control) > 0;
 
-    if (e\_Event == eAltEvent.MouseDown && !b\_CTRL && i\_Object != null)
+    if (e_Event == eAltEvent.MouseDown && !b_CTRL && i_Object != null)
     {
-        i\_Object.Selected = !i\_Object.Selected; // toggle selection
+        i_Object.Selected = !i_Object.Selected; // toggle selection
 
         // After changing the selection status the objects must be redrawn.
-        e\_Invalidate = eInvalidate.Invalidate;
+        e_Invalidate = eInvalidate.Invalidate;
     }
-    else if (e\_Event == eAltEvent.MouseDrag && b\_CTRL)
+    else if (e_Event == eAltEvent.MouseDrag && b_CTRL)
     {
-        cPoint3D i\_Project = editor3D.ReverseProject(s32\_DeltaX, s32\_DeltaY);
+        cPoint3D i_Project = editor3D.ReverseProject(s32_DeltaX, s32_DeltaY);
 
-        foreach (cPoint3D i\_Selected in editor3D.Selection.GetSelectedPoints(eSelType.All))
+        foreach (cPoint3D i_Selected in editor3D.Selection.GetSelectedPoints(eSelType.All))
         {
-            i\_Selected.Move(i\_Project.X, i\_Project.Y, i\_Project.Z);
+            i_Selected.Move(i_Project.X, i_Project.Y, i_Project.Z);
         }
 
         // Set flag to recalculate the coordinate system, then Invalidate()
-        e\_Invalidate = eInvalidate.CoordSystem;
+        e_Invalidate = eInvalidate.CoordSystem;
     }
 
-    return e\_Invalidate;
+    return e_Invalidate;
 }
 ```
 
@@ -475,18 +475,18 @@ The following code shows how to select an entire 3D figure consisting of lines, 
 
 ```csharp
 // Add all parts of your 3D figure to a list
-List<cObject3D> i\_Parts = new List<cObject3D>();
-i\_Parts.Add(i\_MyLine1);
-i\_Parts.Add(i\_MyLine2);
-i\_Parts.Add(i\_MyShape1);
-i\_Parts.Add(i\_MyPolygon1);
-i\_Parts.Add(i\_MyPolygon2);
+List<cObject3D> i_Parts = new List<cObject3D>();
+i_Parts.Add(i_MyLine1);
+i_Parts.Add(i_MyLine2);
+i_Parts.Add(i_MyShape1);
+i_Parts.Add(i_MyPolygon1);
+i_Parts.Add(i_MyPolygon2);
 
-i\_MyLine1.Tag    = i\_Parts;
-i\_MyLine2.Tag    = i\_Parts;
-i\_MyShape1.Tag   = i\_Parts;
-i\_MyPolygon1.Tag = i\_Parts;
-i\_MyPolygon2.Tag = i\_Parts;
+i_MyLine1.Tag    = i_Parts;
+i_MyLine2.Tag    = i_Parts;
+i_MyShape1.Tag   = i_Parts;
+i_MyPolygon1.Tag = i_Parts;
+i_MyPolygon2.Tag = i_Parts;
 
 .....
 
@@ -494,18 +494,18 @@ editor3D.Selection.SinglePoints = false;
 
 .....
 
-private eInvalidate OnSelectEvent(eAltEvent e\_Event, Keys e\_Modifiers,
-                                  int s32\_DeltaX, int s32\_DeltaY, cObject3D i\_Object)
+private eInvalidate OnSelectEvent(eAltEvent e_Event, Keys e_Modifiers,
+                                  int s32_DeltaX, int s32_DeltaY, cObject3D i_Object)
 {
-    bool b\_CTRL = (e\_Modifiers & Keys.Control) > 0;
+    bool b_CTRL = (e_Modifiers & Keys.Control) > 0;
 
-    if (e\_Event == eAltEvent.MouseDown && !b\_CTRL &&
-        i\_Object != null && i\_Object.Tag is List<cObject3D>)
+    if (e_Event == eAltEvent.MouseDown && !b_CTRL &&
+        i_Object != null && i_Object.Tag is List<cObject3D>)
     {
-        bool b\_Selected = !i\_Object.Selected; // toggle selection
-        foreach (cObject3D i\_Part in (List<cObject3D>)i\_Object.Tag)
+        bool b_Selected = !i_Object.Selected; // toggle selection
+        foreach (cObject3D i_Part in (List<cObject3D>)i_Object.Tag)
         {
-            i\_Part.Selected = b\_Selected;
+            i_Part.Selected = b_Selected;
         }
         return eInvalidate.Invalidate;
     }
@@ -528,9 +528,9 @@ void OnEditorKeyDown(object sender, KeyEventArgs e)
     if (e.KeyCode != Keys.Delete)
         return;
 
-    foreach (cObject3D i\_Polygon in editor3D.Selection.GetSelectedObjects(eSelType.Polygon))
+    foreach (cObject3D i_Polygon in editor3D.Selection.GetSelectedObjects(eSelType.Polygon))
     {
-        editor3D.RemoveObject(i\_Polygon);
+        editor3D.RemoveObject(i_Polygon);
     }
     editor3D.Invalidate();
 }
@@ -549,53 +549,53 @@ The timer calls this function every 100 ms:
 ```csharp
 void ProcessAnimation()
 {
-    ms32\_AnimationAngle ++;
+    ms32_AnimationAngle ++;
 
     // ======== SCATTER =========
 
-    cShape3D\[\]   i\_AllShapes   = mi\_SinusData.AllShapes;
-    cColorScheme i\_ColorScheme = mi\_SinusData.ColorScheme;
-    double       d\_DeltaX      = 400.0 / i\_AllShapes.Length;
+    cShape3D[]   i_AllShapes   = mi_SinusData.AllShapes;
+    cColorScheme i_ColorScheme = mi_SinusData.ColorScheme;
+    double       d_DeltaX      = 400.0 / i_AllShapes.Length;
 
-    double d\_X = -200.0;
-    for (int S=0; S<i\_AllShapes.Length; S++, d\_X += d\_DeltaX)
+    double d_X = -200.0;
+    for (int S=0; S<i_AllShapes.Length; S++, d_X += d_DeltaX)
     {
-        cShape3D i\_Shape = i\_AllShapes\[S\];
+        cShape3D i_Shape = i_AllShapes[S];
 
-        i\_Shape.Points\[0\].X =  d\_X;
-        i\_Shape.Points\[0\].Y = -d\_X;
-        i\_Shape.Points\[0\].Z = Math.Sin((ms32\_AnimationAngle + d\_X) / 50.0) \* 50.0 + 50.0;
+        i_Shape.Points[0].X =  d_X;
+        i_Shape.Points[0].Y = -d_X;
+        i_Shape.Points[0].Z = Math.Sin((ms32_AnimationAngle + d_X) / 50.0) * 50.0 + 50.0;
 
-        i\_Shape.Brush = i\_ColorScheme.GetBrush(ms32\_AnimationAngle \* 10);
+        i_Shape.Brush = i_ColorScheme.GetBrush(ms32_AnimationAngle * 10);
     }
 
     // ======== PYRAMID =========
 
-    double d\_Angle   = ms32\_AnimationAngle / 30.0;
-    double d\_Sinus   = Math.Sin(d\_Angle) \* 50.0; // -50 ... +50
-    double d\_Cosinus = Math.Cos(d\_Angle) \* 50.0; // -50 ... +50
-    double d\_DeltaZ  = d\_Sinus / 2.0;            // -25 ... +25
+    double d_Angle   = ms32_AnimationAngle / 30.0;
+    double d_Sinus   = Math.Sin(d_Angle) * 50.0; // -50 ... +50
+    double d_Cosinus = Math.Cos(d_Angle) * 50.0; // -50 ... +50
+    double d_DeltaZ  = d_Sinus / 2.0;            // -25 ... +25
 
     // Top
-    mi\_Pyramid\[0\].X = -100.0;
-    mi\_Pyramid\[0\].Y = -100.0;
-    mi\_Pyramid\[0\].Z =   70.0 + d\_DeltaZ;
+    mi_Pyramid[0].X = -100.0;
+    mi_Pyramid[0].Y = -100.0;
+    mi_Pyramid[0].Z =   70.0 + d_DeltaZ;
     // Edge 1
-    mi\_Pyramid\[1\].X = -100.0 + d\_Sinus;
-    mi\_Pyramid\[1\].Y = -100.0 + d\_Cosinus;
-    mi\_Pyramid\[1\].Z =   40.0 + d\_DeltaZ;
+    mi_Pyramid[1].X = -100.0 + d_Sinus;
+    mi_Pyramid[1].Y = -100.0 + d_Cosinus;
+    mi_Pyramid[1].Z =   40.0 + d_DeltaZ;
     // Edge 2
-    mi\_Pyramid\[2\].X = -100.0 + d\_Cosinus;
-    mi\_Pyramid\[2\].Y = -100.0 - d\_Sinus;
-    mi\_Pyramid\[2\].Z =   40.0 + d\_DeltaZ;
+    mi_Pyramid[2].X = -100.0 + d_Cosinus;
+    mi_Pyramid[2].Y = -100.0 - d_Sinus;
+    mi_Pyramid[2].Z =   40.0 + d_DeltaZ;
     // Edge 3
-    mi\_Pyramid\[3\].X = -100.0 - d\_Sinus;
-    mi\_Pyramid\[3\].Y = -100.0 - d\_Cosinus;
-    mi\_Pyramid\[3\].Z =   40.0 + d\_DeltaZ;
+    mi_Pyramid[3].X = -100.0 - d_Sinus;
+    mi_Pyramid[3].Y = -100.0 - d_Cosinus;
+    mi_Pyramid[3].Z =   40.0 + d_DeltaZ;
     // Edge 4
-    mi\_Pyramid\[4\].X = -100.0 - d\_Cosinus;
-    mi\_Pyramid\[4\].Y = -100.0 + d\_Sinus;
-    mi\_Pyramid\[4\].Z =   40.0 + d\_DeltaZ;
+    mi_Pyramid[4].X = -100.0 - d_Cosinus;
+    mi_Pyramid[4].Y = -100.0 + d_Sinus;
+    mi_Pyramid[4].Z =   40.0 + d_DeltaZ;
 }
 ```
 
@@ -623,13 +623,13 @@ Well, this demo has just been written on 14th february 2021.
 
 Have fun with my library. Read the plenty of comments in the code!
 
-# Elmü
+Elmü
 
 ## License
 This article, along with any associated source code and files, is licensed under The Code Project Open License (CPOL)
 
 # Written By
-### Elmue
+## Elmue
 Software Developer (Senior) ElmüSoft
 Chile
 
